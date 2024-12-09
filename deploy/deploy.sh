@@ -14,9 +14,9 @@ eval `ssh-agent -s`
 ssh-add id_rsa
 
 url=`git config remote.origin.url`
-user=$(basename $(dirname "$url"))
-project=$(basename "$url" .git)
-repo="git@github.com:$user/$project-builds"
+user=siam-smeets
+project=https://github.com/siam-smeets/instascan
+repo="git@github.com:siam-smeets/instascan-builds"
 sha=`git rev-parse --verify HEAD`
 
 git clone "$repo" deploy && cd deploy
@@ -27,7 +27,7 @@ if [ -z "$(git diff --cached)" ]; then
   exit 0
 fi
 
-git config user.name "$COMMIT_AUTHOR_NAME"
-git config user.email "$COMMIT_AUTHOR_EMAIL"
+# git config user.name "$COMMIT_AUTHOR_NAME"
+# git config user.email "$COMMIT_AUTHOR_EMAIL"
 git commit -a -m "Automatic build for $user/$project@${sha}."
 git push "$repo" master
